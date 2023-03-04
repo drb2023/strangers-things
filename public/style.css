@@ -1,0 +1,50 @@
+.sec{
+    margin-left: 10px; margin-right: 10px;
+    padding: 20px;
+    box-shadow: 0px 0px 20px 3px rgba(0, 0, 0, 0.300);
+    border-radius: 15px;
+}
+
+.hdr{
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    background: light;
+}
+
+.hdrt{
+    font-family: 'Rock Salt', cursive;
+    font-family: 'Tilt Neon', cursive;
+    font-size: 3rem;
+    text-shadow: 0px 0px 5px rgb(119, 0, 255);
+}
+
+.hdrd{
+    font-weight: bold;
+}
+
+.login{
+    display: flex; justify-content: center;
+}
+
+.sb{
+    margin-left: 25px;
+    width: 200px;
+}
+
+.link{
+    margin-left: 25px;
+    font-weight: bolder;
+    font-size: larger;
+    text-decoration: none;
+}
+
+.desc{
+    margin-left: 50px;
+}
+
+.psts{
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 10px;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.300);
+}
