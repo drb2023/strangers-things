@@ -1,6 +1,6 @@
 // LIBRARY IMPORTS
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom"; 
+import { BrowserRouter, Routes, Route, Link, useParams } from "react-router-dom"; 
 import { useState, useEffect} from 'react';
 // COMP IMPORTS
 import { Homepage, Register, LogIn, Logout, Posts, SinglePost, Profile } from './components';
@@ -11,6 +11,7 @@ const BASE_URL = `https://strangers-things.herokuapp.com/api/${COHORT_NAME}`
 const App = () => {
     const [posts, setPosts] = useState([]);
     const [myData, setMyData] = useState({})
+    const [myProfile, setMyProfile] = useState({});
 // LOGIN
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 // FETCH
@@ -28,6 +29,38 @@ const App = () => {
     useEffect(() => {
         fetchData()
     },[]);
+
+
+    // DISPLAY MY POSTS-----
+    const [refresh, setRefresh] = useState({})
+    const { url } = useParams();
+    const myJWT = localStorage.getItem("token");
+    const myProfileData = async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/users/me`, {
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${myJWT}`
+                },
+            });
+            const myDataResult = await response.json();
+            setMyProfile(myDataResult.data)
+            setRefresh(url)
+            console.log(refresh)
+            return myProfile
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    useEffect(() => {
+        
+        myProfileData()
+    },[]);  
+    //  -----
+
+
+
+
 // ----
 
     return (
@@ -47,13 +80,39 @@ const App = () => {
                 <br/>
                 <div>
                     <Routes>
-                        <Route path="/" element= {<Homepage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} postsProps={posts} setPostsProps={setPosts}/>}/>
-                        <Route path="/posts" element= {<Posts isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} postsProps={posts} setPostsProps={setPosts}/>}/>
-                        <Route path="/posts/:idNumber" element= {<SinglePost isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} postsProps={posts} setPostsProps={setPosts}/>}/>
-                        <Route path="/profile" element= {<Profile isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} postsProps={posts} setPostsProps={setPosts} myData={myData} setMyData={setMyData}/>}/>
-                        <Route path="/register" element= {<Register isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} postsProps={posts} setPostsProps={setPosts}/>}/>
-                        <Route path="/login" element= {<LogIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} postsProps={posts} setPostsProps={setPosts}/>}/>
-                        <Route path="/logout" element= {<Logout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} postsProps={posts} setPostsProps={setPosts}/>}/>
+                        <Route path="/" element= {<Homepage 
+                            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} 
+                            postsProps={posts} setPostsProps={setPosts}/>}/>
+
+                        <Route path="/posts" element= {<Posts 
+                            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} 
+                            postsProps={posts} setPostsProps={setPosts}/>}/>
+
+                        <Route path="/posts/:idNumber" element= {<SinglePost 
+                            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} 
+                            postsProps={posts} setPostsProps={setPosts}
+                            myData={myData} setMyData={setMyData}
+                            myProfile={myProfile} setMyProfile={setMyProfile}
+                            />}/>
+
+                        <Route path="/profile" element= {<Profile 
+                            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} 
+                            postsProps={posts} setPostsProps={setPosts} 
+                            myData={myData} setMyData={setMyData}
+                            myProfile={myProfile} setMyProfile={setMyProfile}
+                            />}/>
+
+                        <Route path="/register" element= {<Register 
+                            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} 
+                            postsProps={posts} setPostsProps={setPosts}/>}/>
+
+                        <Route path="/login" element= {<LogIn 
+                            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} 
+                            postsProps={posts} setPostsProps={setPosts}/>}/>
+
+                        <Route path="/logout" element= {<Logout 
+                            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} 
+                            postsProps={posts} setPostsProps={setPosts}/>}/>
                     </Routes>
                 </div>
 

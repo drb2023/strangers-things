@@ -11,14 +11,15 @@ const Profile = (props) => {
     const [postDesc, setPostDesc] = useState("");
     const [postPrice, setPostPrice] = useState("");
     const [postDeliver, setPostDeliver] = useState(false);
-    const [myProfile, setMyProfile] = useState({});
-    const myProfilePosts = myProfile["posts"];
+    const [refresh, setRefresh] = useState(0);
+    // const [myProfile, setMyProfile] = useState({});
+    // const myProfilePosts = myProfile["posts"];
     const myJWT = localStorage.getItem("token");
 
     useEffect(() => {
         if (localStorage.getItem("token")) {
             props.setIsLoggedIn(true)
-            console.log(localStorage.getItem("token"));
+            // console.log(localStorage.getItem("token"));
         } else {
             props.setIsLoggedIn(false)
             console.log("No token exists!");
@@ -35,19 +36,21 @@ const Profile = (props) => {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${myJWT}`},
             body: JSON.stringify({
-                post: {
-                    title: postTitle,
-                    description: postDesc,
-                    price: postPrice,
-                    willDeliver: postDeliver
-                }
+            post: {
+                title: postTitle,
+                description: postDesc,
+                price: postPrice,
+                willDeliver: postDeliver
+            }
             })
           });
           const translatedData = await response.json();
           console.log(translatedData);
 
           if(translatedData.success) {
-            props.setPostsProps([...props.postsProps, translatedData.data.post])
+            props.setPostsProps([...props.postsProps, translatedData.data.post]);
+            setRefresh(refresh + 1)
+            console.log(refresh)
             navigate("/posts")
           } else {
             alert("New Post Failed")
@@ -57,49 +60,81 @@ const Profile = (props) => {
           console.error(err);
         }
       }
-// -----
-// DISPLAY MY POSTS-----
-    const myData = async () => {
-        try {
-            const response = await fetch(`${BASE_URL}/users/me`, {
-                headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${myJWT}`
-                },
-            });
-            const myDataResult = await response.json();
-            // console.log(myDataResult);
-            setMyProfile(myDataResult.data)
-            // console.log(myDataResult.success);
-            return myProfile
-        } catch (e) {
-            console.error(e);
-        }
-    }
-   
-    // console.log(myProfilePosts);
 
-    useEffect(() => {
-        myData()
-    },[]);  
+// DISPLAY MY POSTS-----
+    // const [myProfile, setMyProfile] = useState({});
+    // // const myJWT = localStorage.getItem("token");
+    // const myProfileData = async (e) => {
+    //     e.preventDefault(); 
+    //     try {
+    //         const response = await fetch(`${BASE_URL}/users/me`, {
+    //             headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${myJWT}`
+    //             },
+    //         });
+    //         const myDataResult = await response.json();
+    //         setMyProfile(myDataResult.data)
+    //         return myProfile
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // }
+    // useEffect(() => {
+    //     myProfileData()
+    // },[]);  
+//  -----
+
+
+// -----
+// SHOW A POST Pt 2 ---
+// props.myProfile["posts"].map((singlePostElement) => {
+//     return (
+//         {_id}
+//     )
+// })
+
+// DELETE A POST -----
+
+    // async function deletePost (sPe) {
+    //     try {
+    //     const response = await fetch(`https://strangers-things.herokuapp.com/api/2301-FTB-MT-WEB-FT/posts/${sPe}`, {
+    //         method: "DELETE",
+    //         headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${myJWT}`
+    //         }
+    //     });
+    //     const result = await response.json();
+    //     //   console.log(singlePostElement);
+    //     console.log(result);
+    //     return result
+    //     } catch (err) {
+    //     console.error(err);
+    //     }
+    // }
 //  -----
 
     return (
         <section>
             <div>
-                <p>Posts by {myProfile.username}</p>
+                <p>Active Posts By Username: {props.myProfile.username}</p>
 
-                {/* <div>{
-                    myProfilePosts.map((singlePostElement, i) => {
+                <div>{props.myProfile["posts"].map((singlePostElement, i) => {
+                    if (singlePostElement.active == true){
                     return (
-                        <div key={i} className='psts'> 
-                            <Link to={`/posts/${singlePostElement._id}`} className='link'>{singlePostElement.title}</Link>
-                            <p className='desc'>Description: {singlePostElement.description}</p>
+                        <div key={i} className='psts'>
+                                <Link to={`/posts/${singlePostElement._id}`} className='link'>{singlePostElement.title}</Link>
+                                <p>{singlePostElement._id}</p>
+                                <p className='desc'>Description: {singlePostElement.description}</p>
+                                <Link to={`/posts/${singlePostElement._id}`} className='link'>Delete Post</Link>
+                                {/* <button>Delete Post</button> */}
                             <br/>                  
                         </div>
                     )
+                    }
                     })
-                }</div> */}
+                }</div>
 
             </div>
 
