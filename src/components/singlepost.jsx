@@ -87,7 +87,7 @@ const SinglePost = (props) => {
 // RENDER
     return (
         <div className='posts'>
-            <button><Link to='/posts'>Back</Link></button>
+            <button className='backButton'><Link to='/posts'className='backLink'>Back To All Posts</Link></button>
             <p className='link'>{mySelectedPost.title}</p>
             <div className='desc'>
                 <p>DESCRIPTION: {mySelectedPost.description}</p>

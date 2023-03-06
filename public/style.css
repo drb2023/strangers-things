@@ -52,6 +52,14 @@
     text-decoration: none;
 }
 
+.backButton{
+    margin-left: 50px;
+}
+
+.backLink{
+    text-decoration: none;
+}
+
 .desc{
     margin-left: 50px;
 }
