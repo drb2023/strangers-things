@@ -35,7 +35,7 @@ const LogIn = () => {
                 const myJWT = translatedData.data.token;
 
                 localStorage.setItem("token", myJWT)
-                navigate("/profile")
+                navigate("/")
             }
         } catch (error) {
             console.log(error); 
