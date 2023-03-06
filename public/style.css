@@ -1,34 +1,44 @@
-.sec{
+/* MAIN WINDOW & HEADER */
+.section{
     margin-left: 10px; margin-right: 10px;
     padding: 20px;
-    box-shadow: 0px 0px 20px 3px rgba(0, 0, 0, 0.300);
+    box-shadow: 0px 0px 20px 3px rgba(0, 0, 0, 0.700);
     border-radius: 15px;
+    border: 7px ridge rgb(197, 130, 238);
 }
 
-.hdr{
+.header{
     display: flex; flex-direction: column;
     justify-content: center; align-items: center;
-    background: light;
+    padding-bottom: 5px;
 }
 
-.hdrt{
+.hdrtitle{
     font-family: 'Rock Salt', cursive;
     font-family: 'Tilt Neon', cursive;
     font-size: 3rem;
     text-shadow: 0px 0px 5px rgb(119, 0, 255);
 }
 
-.hdrd{
+.hdrdesc{
     font-weight: bold;
 }
-
+/* HOME, SIGN-UP, LOGIN, & LOGOUT */
 .login{
-    display: flex; justify-content: center;
+    font-weight: bold;
+    padding-left: 10px;
 }
-
-.sb{
+/* POSTS, SINGLE POST, PROFILE*/
+.searchbox{
     margin-left: 25px;
     width: 200px;
+}
+
+.posts{
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 10px;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.300);
 }
 
 .link{
@@ -42,9 +52,26 @@
     margin-left: 50px;
 }
 
-.psts{
+.delete{
+    margin-left: 25px;
+}
+
+.messages{
+    padding-left: 25px;
+}
+
+.mTitle{
+    font-weight: bold;
+    color: red;
+}
+
+.cPost{
     padding: 25px;
     border-radius: 15px;
     margin-top: 10px;
     box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.300);
+}
+
+.deliver{display: inline-block;
+    margin-left: 5px;
 }

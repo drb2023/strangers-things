@@ -25,10 +25,7 @@ const Homepage = (props) => {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
                     }
                 })
-
                 const translatedData = await response.json(); 
-
-                // console.log("Below is our personal account data:")
                 console.log(translatedData)
                 setMyData(translatedData.data)
             } catch (e) {
@@ -41,7 +38,7 @@ const Homepage = (props) => {
         <div className="login">
             <div>
                 {
-                    props.isLoggedIn ? <h3>Welcome, {myData.username}!</h3>
+                    props.isLoggedIn ? <p>Welcome, {myData.username}!</p>
                     : <h3>Login / register above or <Link to="/posts">continue as a guest</Link> to view listings only.</h3>
                 }
             </div>

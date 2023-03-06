@@ -1,3 +1,7 @@
+// NOTES:
+// Can't login after browsing posts as unregistered without a hard refresh.
+// Async Func myProfileData in /profile caused errors as if it we're too slow to load before page rendered, moved to index & it seems to work now. idk why.
+
 // LIBRARY IMPORTS
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom"; 
@@ -12,7 +16,6 @@ const App = () => {
     const [posts, setPosts] = useState([]);
     const [myData, setMyData] = useState({})
     const [myProfile, setMyProfile] = useState({});
-// LOGIN
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 // FETCH
     const fetchData = async () => {
@@ -29,9 +32,10 @@ const App = () => {
         fetchData()
     },[postMessage]);
 // DISPLAY MY POSTS-----
-// Caused errors while in profile, so moved to index. idk why.
     const myJWT = localStorage.getItem("token");
+
     const myProfileData = async () => {
+        
         try {
             const response = await fetch(`${BASE_URL}/users/me`, {
                 headers: {
@@ -49,15 +53,15 @@ const App = () => {
     }
     useEffect(() => {     
         myProfileData()
-    },[posts]);  
+    },[posts])
 
 //RENDER
     return (
         <BrowserRouter>
-            <section className='sec'>
-                <header className='hdr'>
-                    <div className='hdrt'>Stranger's Things</div>
-                    <p className='hdrd'>Buy & Sell Your <s>Junk</s> Stuff!</p>
+            <section className='section'>
+                <header className='header'>
+                    <div className='hdrtitle'>Stranger's Things</div>
+                    <p className='hdrdesc'>Buy & Sell Your <s>Junk</s> Stuff!</p>
                     <nav className='nav'>
 
                         {isLoggedIn ? <button><Link to="/posts">Posts</Link></button> : <button><Link to="/register">Sign Up</Link></button>}

@@ -24,7 +24,6 @@ const Posts = (props) => {
             console.log(e);
         }
     };
-
     useEffect(() => {
         fetchData()
     },[]);
@@ -33,20 +32,19 @@ const Posts = (props) => {
         <section>
             <div>
                 <input 
-                    className="sb"
+                    className="searchbox"
                     type="text"
                     placeholder="Search Posts..."
                     onChange={(event) => {
                             setSearchQuery(event.target.value)
-                    }}
-                >
+                    }}>
                 </input>
             </div>
             <br/>
             <div>{
                 filteredPosts.length ? filteredPosts.map((singlePostElement, i) => {
                     return (
-                        <div key={i} className='psts'> 
+                        <div key={i} className='posts'> 
                             <Link to={`/posts/${singlePostElement._id}`} className='link'>{singlePostElement.title}</Link>
                             <p className='desc'>Description: {singlePostElement.description}</p>
                             <br/>                  

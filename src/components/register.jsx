@@ -1,4 +1,3 @@
-
 import { useState } from "react"; 
 import { useNavigate } from "react-router-dom"
 
@@ -11,14 +10,14 @@ const Register = () => {
     async function sendRegisterNewAccountReq(e) {
         e.preventDefault(); 
         try {
-            console.log("Our new username is: " + newUsername)
-            console.log("Our new password is: " + newPassword)
+            console.log("New Username is: " + newUsername)
+            console.log("New password is: " + newPassword)
 
             if (newPassword.length < 3) {
-                alert("Password is too short. Must be 8 characters")
+                alert("Password is too short. Must be 3+ characters")
                 return;
             } else if (newUsername.length < 3) {
-                alert("Username is too short. Must be 8 characters");
+                alert("Username is too short. Must be 3+ characters");
                 return; 
             }
 
@@ -38,10 +37,7 @@ const Register = () => {
                     }
                 })
             })
-
             const translatedData = await response.json(); 
-            // console.log(translatedData)
-
             if (!translatedData.success) {
                 alert("Account was not successfully created. Please try again!")
             } else {
@@ -55,7 +51,7 @@ const Register = () => {
     }
 
     return (
-        <div>
+        <div className="login">
             <h3>Sign Up For A New Account Here!</h3>
 
             <form onSubmit={sendRegisterNewAccountReq}>

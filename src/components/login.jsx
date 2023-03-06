@@ -1,4 +1,3 @@
-
 import { useState } from "react"; 
 import { useNavigate } from "react-router-dom"
 
@@ -6,7 +5,6 @@ const COHORT_NAME = '2301-FTB-MT-WEB-FT'
 const BASE_URL = `https://strangers-things.herokuapp.com/api/${COHORT_NAME}`
 
 const LogIn = () => {
-
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState(""); 
     const navigate = useNavigate() 
@@ -30,10 +28,7 @@ const LogIn = () => {
                     }
                 })
             })
-
             const translatedData = await response.json(); 
-            // console.log(translatedData)
-
             if (!translatedData.success) {
                 alert("Log In Failed. Please try again!")
             } else {
@@ -48,8 +43,8 @@ const LogIn = () => {
     }
 
     return (
-        <div>
-            <h3>Log In Here</h3>
+        <div className="login">
+            <h3>Enter a valid Username and Password:</h3>
 
             <form onSubmit={sendLogInReq}>
                 <input 
