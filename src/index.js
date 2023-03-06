@@ -1,13 +1,13 @@
 // LIBRARY IMPORTS
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route, Link, useParams } from "react-router-dom"; 
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom"; 
 import { useState, useEffect} from 'react';
 // COMP IMPORTS
-import { Homepage, Register, LogIn, Logout, Posts, SinglePost, Profile } from './components';
-
+import { Homepage, Register, LogIn, Logout, Posts, SinglePost, Profile} from './components';
+// API
 const COHORT_NAME = '2301-FTB-MT-WEB-FT'
 const BASE_URL = `https://strangers-things.herokuapp.com/api/${COHORT_NAME}`
-
+// PARENT OF ALL
 const App = () => {
     const [posts, setPosts] = useState([]);
     const [myData, setMyData] = useState({})
@@ -25,15 +25,11 @@ const App = () => {
             console.log(e);
         }
     };
-
     useEffect(() => {
         fetchData()
-    },[]);
-
-
-    // DISPLAY MY POSTS-----
-    const [refresh, setRefresh] = useState({})
-    const { url } = useParams();
+    },[postMessage]);
+// DISPLAY MY POSTS-----
+// Caused errors while in profile, so moved to index. idk why.
     const myJWT = localStorage.getItem("token");
     const myProfileData = async () => {
         try {
@@ -45,24 +41,17 @@ const App = () => {
             });
             const myDataResult = await response.json();
             setMyProfile(myDataResult.data)
-            setRefresh(url)
-            console.log(refresh)
+            console.log(myProfile)
             return myProfile
         } catch (e) {
             console.error(e);
         }
     }
-    useEffect(() => {
-        
+    useEffect(() => {     
         myProfileData()
-    },[]);  
-    //  -----
+    },[posts]);  
 
-
-
-
-// ----
-
+//RENDER
     return (
         <BrowserRouter>
             <section className='sec'>

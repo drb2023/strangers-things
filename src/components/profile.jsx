@@ -1,19 +1,16 @@
 import { useEffect, useState} from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const COHORT_NAME = '2301-FTB-MT-WEB-FT'
 const BASE_URL = `https://strangers-things.herokuapp.com/api/${COHORT_NAME}`
 
 
 const Profile = (props) => {
-    const navigate = useNavigate();
     const [postTitle, setPostTitle] = useState("");
     const [postDesc, setPostDesc] = useState("");
     const [postPrice, setPostPrice] = useState("");
+    const [postLocation, setPostLocation] = useState("");
     const [postDeliver, setPostDeliver] = useState(false);
-    const [refresh, setRefresh] = useState(0);
-    // const [myProfile, setMyProfile] = useState({});
-    // const myProfilePosts = myProfile["posts"];
     const myJWT = localStorage.getItem("token");
 
     useEffect(() => {
@@ -26,7 +23,7 @@ const Profile = (props) => {
         }
     },[])
 
-// MAKE A POST---
+// MAKE A NEW POST---
     const makePost = async (e) => {
         e.preventDefault(); 
         try {
@@ -35,91 +32,37 @@ const Profile = (props) => {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${myJWT}`},
+              // CORS-ERROR-FIX:
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
+              "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
             body: JSON.stringify({
             post: {
                 title: postTitle,
                 description: postDesc,
                 price: postPrice,
+                location: postLocation,
                 willDeliver: postDeliver
-            }
-            })
-          });
+            }})});
           const translatedData = await response.json();
           console.log(translatedData);
-
           if(translatedData.success) {
             props.setPostsProps([...props.postsProps, translatedData.data.post]);
-            setRefresh(refresh + 1)
-            console.log(refresh)
-            navigate("/posts")
+            props.myProfile;
+            Profile;
           } else {
             alert("New Post Failed")
           }
-
         } catch (err) {
           console.error(err);
         }
-      }
-
-// DISPLAY MY POSTS-----
-    // const [myProfile, setMyProfile] = useState({});
-    // // const myJWT = localStorage.getItem("token");
-    // const myProfileData = async (e) => {
-    //     e.preventDefault(); 
-    //     try {
-    //         const response = await fetch(`${BASE_URL}/users/me`, {
-    //             headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': `Bearer ${myJWT}`
-    //             },
-    //         });
-    //         const myDataResult = await response.json();
-    //         setMyProfile(myDataResult.data)
-    //         return myProfile
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // }
-    // useEffect(() => {
-    //     myProfileData()
-    // },[]);  
-//  -----
-
-
-// -----
-// SHOW A POST Pt 2 ---
-// props.myProfile["posts"].map((singlePostElement) => {
-//     return (
-//         {_id}
-//     )
-// })
-
-// DELETE A POST -----
-
-    // async function deletePost (sPe) {
-    //     try {
-    //     const response = await fetch(`https://strangers-things.herokuapp.com/api/2301-FTB-MT-WEB-FT/posts/${sPe}`, {
-    //         method: "DELETE",
-    //         headers: {
-    //         'Content-Type': 'application/json',
-    //         'Authorization': `Bearer ${myJWT}`
-    //         }
-    //     });
-    //     const result = await response.json();
-    //     //   console.log(singlePostElement);
-    //     console.log(result);
-    //     return result
-    //     } catch (err) {
-    //     console.error(err);
-    //     }
-    // }
-//  -----
+    }
 
     return (
         <section>
+{/* LIST OF USER POSTS */}
             <div>
                 <p>Active Posts By Username: {props.myProfile.username}</p>
-
                 <div>{props.myProfile["posts"].map((singlePostElement, i) => {
                     if (singlePostElement.active == true){
                     return (
@@ -127,22 +70,15 @@ const Profile = (props) => {
                                 <Link to={`/posts/${singlePostElement._id}`} className='link'>{singlePostElement.title}</Link>
                                 <p>{singlePostElement._id}</p>
                                 <p className='desc'>Description: {singlePostElement.description}</p>
-                                <Link to={`/posts/${singlePostElement._id}`} className='link'>Delete Post</Link>
-                                {/* <button>Delete Post</button> */}
+                                <Link to={`/posts/${singlePostElement._id}`} className='link'>Delete this post</Link>
                             <br/>                  
                         </div>
-                    )
-                    }
-                    })
+                    )}})
                 }</div>
-
             </div>
-
-
             <br/>
             <br/>
-
-
+{/* NEW POST FORM */}
             <div>Create a new post here.
                 <form onSubmit={makePost}>
                     <input 
@@ -164,6 +100,13 @@ const Profile = (props) => {
                     placeholder="Item Price"
                     value={postPrice}
                     onChange={(event) => setPostPrice(event.target.value)}
+                    className="makePostInput"
+                    />
+                    <input 
+                    type="string" 
+                    placeholder="Item Location"
+                    value={postLocation}
+                    onChange={(event) => setPostLocation(event.target.value)}
                     className="makePostInput"
                     />
                     <input 
