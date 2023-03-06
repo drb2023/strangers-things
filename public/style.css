@@ -28,6 +28,10 @@
     font-weight: bold;
     padding-left: 10px;
 }
+
+.welcome{
+    display: flex; justify-content: center;
+}
 /* POSTS, SINGLE POST, PROFILE*/
 .searchbox{
     margin-left: 25px;

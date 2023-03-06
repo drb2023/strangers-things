@@ -38,7 +38,7 @@ const Homepage = (props) => {
         <div className="login">
             <div>
                 {
-                    props.isLoggedIn ? <p>Welcome, {myData.username}!</p>
+                    props.isLoggedIn ? <p className="welcome">Welcome {myData.username}! Where would you like to go?</p>
                     : <h3>Login / register above or <Link to="/posts">continue as a guest</Link> to view listings only.</h3>
                 }
             </div>
